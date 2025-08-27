@@ -31,17 +31,21 @@ class APP_EXPORT QgsAbout : public QgsOptionsDialogBase, private Ui::QgsAbout
     static QString fileSystemSafe( const QString &string );
 
   private:
-    void setWhatsNew();
+    // TODO kestrel  注释：UI中已隐藏"What's New"页面，相关函数已注释
+    // TODO kestrel void setWhatsNew();
     void setLicence();
     void setPluginInfo();
-    void setDevelopersMap();
+    // TODO kestrel 注释：UI中已隐藏开发者地图页面，相关函数已注释
+    // TODO kestrel void setDevelopersMap();
     void init();
     QString mVersionString;
 
   private slots:
     void btnCopyToClipboard_clicked();
-    void btnQgisUser_clicked();
-    void btnQgisHome_clicked();
+    // TODO kestrel 注释：UI中已隐藏用户邮件列表按钮，相关槽函数已注释
+    // TODO kestrel void btnQgisUser_clicked();
+    // TODO kestrel 注释：UI中已隐藏主页按钮，相关槽函数已注释
+    // TODO kestrel void btnQgisHome_clicked();
     void openUrl( const QUrl &url );
 };
 

@@ -48,5 +48,6 @@ trans.gl       = i18n/qgis_gl.ts
 trans.id       = i18n/qgis_id.ts
 trans.sv       = i18n/qgis_sv.ts
 trans.zh-Hans  = i18n/qgis_zh-Hans.ts
+trans.zh_CN    = i18n/qgis_zh_CN.ts
 trans.da       = i18n/qgis_da.ts
 

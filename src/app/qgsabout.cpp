@@ -43,8 +43,9 @@ QgsAbout::QgsAbout( QWidget *parent )
   : QgsOptionsDialogBase( QStringLiteral( "about" ), parent, kAboutWindowFlags )
 {
   setupUi( this );
-  connect( btnQgisUser, &QPushButton::clicked, this, &QgsAbout::btnQgisUser_clicked );
-  connect( btnQgisHome, &QPushButton::clicked, this, &QgsAbout::btnQgisHome_clicked );
+  // TODO kestrel 注释：UI中隐藏了用户邮件列表和主页按钮，移除连接
+  // connect( btnQgisUser, &QPushButton::clicked, this, &QgsAbout::btnQgisUser_clicked );
+  // connect( btnQgisHome, &QPushButton::clicked, this, &QgsAbout::btnQgisHome_clicked );
   connect( btnCopyToClipboard, &QPushButton::clicked, this, &QgsAbout::btnCopyToClipboard_clicked );
   if constexpr ( QSysInfo::WordSize != 64 )
   {
@@ -62,158 +63,165 @@ void QgsAbout::init()
 {
   setPluginInfo();
 
-  // check internet connection in order to hide/show the developers map widget
-  const int DEVELOPERS_MAP_INDEX = 5;
-  QTcpSocket socket;
-  socket.connectToHost( QgsApplication::QGIS_ORGANIZATION_DOMAIN, 80 );
-  if ( socket.waitForConnected( 1000 ) )
-  {
-    setDevelopersMap();
-  }
-  else
-  {
-    mOptionsListWidget->item( DEVELOPERS_MAP_INDEX )->setHidden( true );
-    const QModelIndex firstItem = mOptionsListWidget->model()->index( 0, 0, QModelIndex() );
-    mOptionsListWidget->setCurrentIndex( firstItem );
-  }
-  developersMapView->page()->setLinkDelegationPolicy( QWebPage::DelegateAllLinks );
-  developersMapView->setContextMenuPolicy( Qt::NoContextMenu );
+  // TODO kestrel 注释：UI中隐藏了开发者地图菜单及页面，移除相关逻辑
+  // // check internet connection in order to hide/show the developers map widget
+  // const int DEVELOPERS_MAP_INDEX = 5;
+  // QTcpSocket socket;
+  // socket.connectToHost( QgsApplication::QGIS_ORGANIZATION_DOMAIN, 80 );
+  // if ( socket.waitForConnected( 1000 ) )
+  // {
+  //   setDevelopersMap();
+  // }
+  // else
+  // {
+  //   mOptionsListWidget->item( DEVELOPERS_MAP_INDEX )->setHidden( true );
+  //   const QModelIndex firstItem = mOptionsListWidget->model()->index( 0, 0, QModelIndex() );
+  //   mOptionsListWidget->setCurrentIndex( firstItem );
+  // }
+  // developersMapView->page()->setLinkDelegationPolicy( QWebPage::DelegateAllLinks );
+  // developersMapView->setContextMenuPolicy( Qt::NoContextMenu );
+  // 
+  // connect( developersMapView, &QgsWebView::linkClicked, this, &QgsAbout::openUrl );
 
-  connect( developersMapView, &QgsWebView::linkClicked, this, &QgsAbout::openUrl );
+  // TODO kestrel 注释：UI中隐藏了开发者列表菜单及页面，移除加载逻辑
+  // //read the authors file to populate the svn committers list
+  // QStringList lines;
+  // 
+  // //
+  // // Load the authors (svn committers) list
+  // //
+  // QFile file( QgsApplication::authorsFilePath() );
+  // if ( file.open( QIODevice::ReadOnly ) )
+  // {
+  //   QTextStream stream( &file );
+  // #if QT_VERSION < QT_VERSION_CHECK( 6, 0, 0 )
+  //   // Always use UTF-8
+  //   stream.setCodec( "UTF-8" );
+  // #endif
+  //   QString line;
+  //   while ( !stream.atEnd() )
+  //   {
+  //     line = stream.readLine(); // line of text excluding '\n'
+  //     //ignore the line if it starts with a hash....
+  //     if ( !line.isEmpty() && line.at( 0 ) == '#' )
+  //       continue;
+  //     QStringList myTokens = line.split( '\t', Qt::SkipEmptyParts );
+  //     lines << myTokens[0];
+  //   }
+  //   file.close();
+  //   lstDevelopers->clear();
+  //   lstDevelopers->insertItems( 0, lines );
+  // 
+  //   if ( lstDevelopers->count() > 0 )
+  //   {
+  //     lstDevelopers->setCurrentRow( 0 );
+  //   }
+  // }
 
-  //read the authors file to populate the svn committers list
-  QStringList lines;
+  // TODO kestrel 注释：UI中隐藏了贡献者列表菜单及页面，移除加载逻辑
+  // lines.clear();
+  // //
+  // // Now load up the contributors list
+  // //
+  // QFile file2( QgsApplication::contributorsFilePath() );
+  // if ( file2.open( QIODevice::ReadOnly ) )
+  // {
+  //   QTextStream stream( &file2 );
+  // #if QT_VERSION < QT_VERSION_CHECK( 6, 0, 0 )
+  //   // Always use UTF-8
+  //   stream.setCodec( "UTF-8" );
+  // #endif
+  //   QString line;
+  //   while ( !stream.atEnd() )
+  //   {
+  //     line = stream.readLine(); // line of text excluding '\n'
+  //     //ignore the line if it starts with a hash....
+  //     if ( !line.isEmpty() && line.at( 0 ) == '#' )
+  //       continue;
+  //     lines += line;
+  //   }
+  //   file2.close();
+  //   lstContributors->clear();
+  //   lstContributors->insertItems( 0, lines );
+  //   if ( lstContributors->count() > 0 )
+  //   {
+  //     lstContributors->setCurrentRow( 0 );
+  //   }
+  // }
 
-  //
-  // Load the authors (svn committers) list
-  //
-  QFile file( QgsApplication::authorsFilePath() );
-  if ( file.open( QIODevice::ReadOnly ) )
-  {
-    QTextStream stream( &file );
-#if QT_VERSION < QT_VERSION_CHECK( 6, 0, 0 )
-    // Always use UTF-8
-    stream.setCodec( "UTF-8" );
-#endif
-    QString line;
-    while ( !stream.atEnd() )
-    {
-      line = stream.readLine(); // line of text excluding '\n'
-      //ignore the line if it starts with a hash....
-      if ( !line.isEmpty() && line.at( 0 ) == '#' )
-        continue;
-      QStringList myTokens = line.split( '\t', Qt::SkipEmptyParts );
-      lines << myTokens[0];
-    }
-    file.close();
-    lstDevelopers->clear();
-    lstDevelopers->insertItems( 0, lines );
+  // TODO kestrel 注释：UI中隐藏了捐赠者菜单及页面，移除加载逻辑
+  // // read the DONORS file and populate the text widget
+  // QFile donorsFile( QgsApplication::donorsFilePath() );
+  // if ( donorsFile.open( QIODevice::ReadOnly ) )
+  // {
+  //   const QString donorsHTML = tr( "<p>For a list of individuals and institutions who have contributed "
+  //                                  "money to fund QGIS development and other project costs see "
+  //                                  "<a href=\"https://qgis.org/funding/donate/\">"
+  //                                  "https://qgis.org/funding/donate/</a></p>" );
+  // #if 0
+  //   QString website;
+  //   QTextStream donorsStream( &donorsFile );
+  //   // Always use UTF-8
+  //   donorsStream.setCodec( "UTF-8" );
+  //   QString sline;
+  //   while ( !donorsStream.atEnd() )
+  //   {
+  //     sline = donorsStream.readLine(); // line of text excluding '\n'
+  //     //ignore the line if it starts with a hash....
+  //     if ( sline.left( 1 ) == "#" )
+  //       continue;
+  //     QStringList myTokens = sline.split( '|', QString::SkipEmptyParts );
+  //     if ( myTokens.size() > 1 )
+  //     {
+  //       website = "<a href=\"" + myTokens[1].remove( ' ' ) + "\">" + myTokens[1] + "</a>";
+  //     }
+  //     else
+  //     {
+  //       website = "&nbsp;";
+  //     }
+  //     donorsHTML += "<tr>";
+  //     donorsHTML += "<td>" + myTokens[0] + "</td><td>" + website + "</td>";
+  //     // close the row
+  //     donorsHTML += "</tr>";
+  //   }
+  //   donorsHTML += "</table>";
+  // #endif
+  // 
+  //   txtDonors->clear();
+  //   txtDonors->document()->setDefaultStyleSheet( QgsApplication::reportStyleSheet() );
+  //   txtDonors->setHtml( donorsHTML );
+  //   QgsDebugMsgLevel( QStringLiteral( "donorsHTML:%1" ).arg( donorsHTML.toLatin1().constData() ), 2 );
+  // }
 
-    if ( lstDevelopers->count() > 0 )
-    {
-      lstDevelopers->setCurrentRow( 0 );
-    }
-  }
-
-  lines.clear();
-  //
-  // Now load up the contributors list
-  //
-  QFile file2( QgsApplication::contributorsFilePath() );
-  if ( file2.open( QIODevice::ReadOnly ) )
-  {
-    QTextStream stream( &file2 );
-#if QT_VERSION < QT_VERSION_CHECK( 6, 0, 0 )
-    // Always use UTF-8
-    stream.setCodec( "UTF-8" );
-#endif
-    QString line;
-    while ( !stream.atEnd() )
-    {
-      line = stream.readLine(); // line of text excluding '\n'
-      //ignore the line if it starts with a hash....
-      if ( !line.isEmpty() && line.at( 0 ) == '#' )
-        continue;
-      lines += line;
-    }
-    file2.close();
-    lstContributors->clear();
-    lstContributors->insertItems( 0, lines );
-    if ( lstContributors->count() > 0 )
-    {
-      lstContributors->setCurrentRow( 0 );
-    }
-  }
-
-  // read the DONORS file and populate the text widget
-  QFile donorsFile( QgsApplication::donorsFilePath() );
-  if ( donorsFile.open( QIODevice::ReadOnly ) )
-  {
-    const QString donorsHTML = tr( "<p>For a list of individuals and institutions who have contributed "
-                                   "money to fund QGIS development and other project costs see "
-                                   "<a href=\"https://qgis.org/funding/donate/\">"
-                                   "https://qgis.org/funding/donate/</a></p>" );
-#if 0
-    QString website;
-    QTextStream donorsStream( &donorsFile );
-    // Always use UTF-8
-    donorsStream.setCodec( "UTF-8" );
-    QString sline;
-    while ( !donorsStream.atEnd() )
-    {
-      sline = donorsStream.readLine(); // line of text excluding '\n'
-      //ignore the line if it starts with a hash....
-      if ( sline.left( 1 ) == "#" )
-        continue;
-      QStringList myTokens = sline.split( '|', QString::SkipEmptyParts );
-      if ( myTokens.size() > 1 )
-      {
-        website = "<a href=\"" + myTokens[1].remove( ' ' ) + "\">" + myTokens[1] + "</a>";
-      }
-      else
-      {
-        website = "&nbsp;";
-      }
-      donorsHTML += "<tr>";
-      donorsHTML += "<td>" + myTokens[0] + "</td><td>" + website + "</td>";
-      // close the row
-      donorsHTML += "</tr>";
-    }
-    donorsHTML += "</table>";
-#endif
-
-    txtDonors->clear();
-    txtDonors->document()->setDefaultStyleSheet( QgsApplication::reportStyleSheet() );
-    txtDonors->setHtml( donorsHTML );
-    QgsDebugMsgLevel( QStringLiteral( "donorsHTML:%1" ).arg( donorsHTML.toLatin1().constData() ), 2 );
-  }
-
-  // read the TRANSLATORS file and populate the text widget
-  QFile translatorFile( QgsApplication::translatorsFilePath() );
-  if ( translatorFile.open( QIODevice::ReadOnly ) )
-  {
-    QString translatorHTML;
-    QTextStream translatorStream( &translatorFile );
-    // Always use UTF-8
-#if QT_VERSION < QT_VERSION_CHECK( 6, 0, 0 )
-    translatorStream.setCodec( "UTF-8" );
-#endif
-    const QString myStyle = QgsApplication::reportStyleSheet();
-    translatorHTML += "<style>" + myStyle + "</style>";
-    while ( !translatorStream.atEnd() )
-    {
-      translatorHTML += translatorStream.readLine();
-    }
-    txtTranslators->setHtml( translatorHTML );
-    QgsDebugMsgLevel( QStringLiteral( "translatorHTML:%1" ).arg( translatorHTML.toLatin1().constData() ), 2 );
-  }
-  setWhatsNew();
+  // TODO kestrel 注释：UI中隐藏了翻译者菜单及页面，移除加载逻辑
+  // // read the TRANSLATORS file and populate the text widget
+  // QFile translatorFile( QgsApplication::translatorsFilePath() );
+  // if ( translatorFile.open( QIODevice::ReadOnly ) )
+  // {
+  //   QString translatorHTML;
+  //   QTextStream translatorStream( &translatorFile );
+  //   // Always use UTF-8
+  // #if QT_VERSION < QT_VERSION_CHECK( 6, 0, 0 )
+  //   translatorStream.setCodec( "UTF-8" );
+  // #endif
+  //   const QString myStyle = QgsApplication::reportStyleSheet();
+  //   translatorHTML += "<style>" + myStyle + "</style>";
+  //   while ( !translatorStream.atEnd() )
+  //   {
+  //     translatorHTML += translatorStream.readLine();
+  //   }
+  //   txtTranslators->setHtml( translatorHTML );
+  //   QgsDebugMsgLevel( QStringLiteral( "translatorHTML:%1" ).arg( translatorHTML.toLatin1().constData() ), 2 );
+  // }
+  
+  // TODO kestrel 注释：UI中隐藏了"What's New"菜单及页面，移除相关逻辑
+  // setWhatsNew();
   setLicence();
 }
 
 void QgsAbout::setLicence()
 {
-  // read the DONORS file and populate the text widget
+  // read the licence file and populate the text widget
   QFile licenceFile( QgsApplication::licenceFilePath() );
   QgsDebugMsgLevel( QStringLiteral( "Reading licence file %1" ).arg( licenceFile.fileName() ), 2 );
   if ( licenceFile.open( QIODevice::ReadOnly ) )
@@ -230,15 +238,16 @@ void QgsAbout::setVersion( const QString &v )
   mVersionString = v;
 }
 
-void QgsAbout::setWhatsNew()
-{
-  txtWhatsNew->clear();
-  txtWhatsNew->document()->setDefaultStyleSheet( QgsApplication::reportStyleSheet() );
-  if ( !QFile::exists( QgsApplication::pkgDataPath() + "/doc/NEWS.html" ) )
-    return;
-
-  txtWhatsNew->setSource( QString( "file:///" + QgsApplication::pkgDataPath() + "/doc/NEWS.html" ) );
-}
+// TODO kestrel 注释：UI中隐藏了"What's New"页面，移除该函数实现
+// void QgsAbout::setWhatsNew()
+// {
+//   txtWhatsNew->clear();
+//   txtWhatsNew->document()->setDefaultStyleSheet( QgsApplication::reportStyleSheet() );
+//   if ( !QFile::exists( QgsApplication::pkgDataPath() + "/doc/NEWS.html" ) )
+//     return;
+// 
+//   txtWhatsNew->setSource( QString( "file:///" + QgsApplication::pkgDataPath() + "/doc/NEWS.html" ) );
+// }
 
 void QgsAbout::setPluginInfo()
 {
@@ -280,15 +289,17 @@ void QgsAbout::btnCopyToClipboard_clicked()
   QGuiApplication::clipboard()->setText( mVersionString );
 }
 
-void QgsAbout::btnQgisUser_clicked()
-{
-  openUrl( QStringLiteral( "https://lists.osgeo.org/mailman/listinfo/qgis-user" ) );
-}
+// TODO kestrel 注释：UI中隐藏了用户邮件列表按钮，移除该函数
+// void QgsAbout::btnQgisUser_clicked()
+// {
+//   openUrl( QStringLiteral( "https://lists.osgeo.org/mailman/listinfo/qgis-user" ) );
+// }
 
-void QgsAbout::btnQgisHome_clicked()
-{
-  openUrl( QStringLiteral( "https://qgis.org" ) );
-}
+// TODO kestrel 注释：UI中隐藏了主页按钮，移除该函数
+// void QgsAbout::btnQgisHome_clicked()
+// {
+//   openUrl( QStringLiteral( "https://qgis.org" ) );
+// }
 
 void QgsAbout::openUrl( const QUrl &url )
 {
@@ -328,9 +339,10 @@ QString QgsAbout::fileSystemSafe( const QString &fileName )
   return result;
 }
 
-void QgsAbout::setDevelopersMap()
-{
-  developersMapView->settings()->setAttribute( QWebSettings::JavascriptEnabled, true );
-  const QUrl url = QUrl::fromLocalFile( QgsApplication::developersMapFilePath() );
-  developersMapView->load( url );
-}
+// TODO kestrel 注释：UI中隐藏了开发者地图页面，移除该函数
+// void QgsAbout::setDevelopersMap()
+// {
+//   developersMapView->settings()->setAttribute( QWebSettings::JavascriptEnabled, true );
+//   const QUrl url = QUrl::fromLocalFile( QgsApplication::developersMapFilePath() );
+//   developersMapView->load( url );
+// }

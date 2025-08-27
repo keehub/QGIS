@@ -567,27 +567,67 @@ class QTreeWidgetItem;
 class QgsUserProfileManager;
 class QgsUserProfile;
 
+// TODO kestrel 主窗口标题设置
 /**
  * Set the application title bar text
  */
+// static void setTitleBarText_( QWidget &qgisApp )
+// {
+//   QString caption;
+//   if ( QgsProject::instance()->title().isEmpty() )
+//   {
+//     if ( QgsProject::instance()->fileName().isEmpty() )
+//     {
+//       // new project
+//       caption = QgisApp::tr( "Untitled Project" );
+//     }
+//     else
+//     {
+//       caption = QgsProject::instance()->baseName();
+//     }
+//   }
+//   else
+//   {
+//     caption = QgsProject::instance()->title();
+//   }
+//   if ( !caption.isEmpty() )
+//   {
+//     caption += QStringLiteral( " %1 " ).arg( QChar( 0x2014 ) );
+//   }
+//   if ( QgsProject::instance()->isDirty() )
+//     caption.prepend( '*' );
+
+//   caption += QgisApp::tr( "QGIS" );
+
+//   // Add current profile (if it's not the default one)
+//   if ( QgisApp::instance()->userProfileManager()->allProfiles().count() > 1 )
+//   {
+//     QgsUserProfile *profile = QgisApp::instance()->userProfileManager()->userProfile();
+//     if ( profile->name() != QgisApp::instance()->userProfileManager()->defaultProfileName() )
+//       caption += QStringLiteral( " [%1]" ).arg( profile->name() );
+//   }
+
+//   qgisApp.setWindowTitle( caption );
+// }
+
 static void setTitleBarText_( QWidget &qgisApp )
 {
-  QString caption;
+  QString caption = "黄陵智慧水务地理信息服务";
+  caption += QStringLiteral( " %1 " ).arg( QChar( 0x2014 ) );
   if ( QgsProject::instance()->title().isEmpty() )
   {
     if ( QgsProject::instance()->fileName().isEmpty() )
     {
-      // new project
-      caption = QgisApp::tr( "Untitled Project" );
+      caption += QgisApp::tr( "Untitled Project" );
     }
     else
     {
-      caption = QgsProject::instance()->baseName();
+      caption += QgsProject::instance()->baseName();
     }
   }
   else
   {
-    caption = QgsProject::instance()->title();
+    caption += QgsProject::instance()->title();
   }
   if ( !caption.isEmpty() )
   {
@@ -595,14 +635,10 @@ static void setTitleBarText_( QWidget &qgisApp )
   }
   if ( QgsProject::instance()->isDirty() )
     caption.prepend( '*' );
-
-  caption += QgisApp::tr( "QGIS" );
-
   if ( Qgis::version().endsWith( QLatin1String( "Master" ) ) )
   {
     caption += QStringLiteral( " %1" ).arg( Qgis::devVersion() );
   }
-
   // Add current profile (if it's not the default one)
   if ( QgisApp::instance()->userProfileManager()->allProfiles().count() > 1 )
   {
@@ -610,7 +646,6 @@ static void setTitleBarText_( QWidget &qgisApp )
     if ( profile->name() != QgisApp::instance()->userProfileManager()->defaultProfileName() )
       caption += QStringLiteral( " [%1]" ).arg( profile->name() );
   }
-
   qgisApp.setWindowTitle( caption );
 }
 

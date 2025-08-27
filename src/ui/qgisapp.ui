@@ -290,7 +290,8 @@
       <string>Plugins</string>
      </property>
     </widget>
-    <addaction name="mActionHelpContents"/>
+    <!-- TODO kestrel 帮助菜单，隐藏子菜单 -->
+    <!-- <addaction name="mActionHelpContents"/>
     <addaction name="mActionHelpAPI"/>
     <addaction name="mActionHelpPyQgisAPI"/>
     <addaction name="separator"/>
@@ -304,7 +305,7 @@
     <addaction name="separator"/>
     <addaction name="mActionQgisHomePage"/>
     <addaction name="mActionCheckQgisVersion"/>
-    <addaction name="separator"/>
+    <addaction name="separator"/> -->
     <addaction name="mActionAbout"/>
    </widget>
    <widget class="QMenu" name="mSettingsMenu">

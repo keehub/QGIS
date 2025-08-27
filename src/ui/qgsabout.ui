@@ -96,12 +96,13 @@
          </item>
          <item>
           <property name="text">
-           <string>What's New</string>
+           <string>Providers</string>
           </property>
          </item>
-         <item>
+         <!-- TODO kestrel 关于菜单，隐藏项目 -->
+         <!-- <item>
           <property name="text">
-           <string>Providers</string>
+           <string>What's New</string>
           </property>
          </item>
          <item>
@@ -128,7 +129,7 @@
           <property name="text">
            <string>Donors</string>
           </property>
-         </item>
+         </item> -->
          <item>
           <property name="text">
            <string>License</string>
@@ -229,7 +230,8 @@
              </property>
             </widget>
            </item>
-           <item>
+           <!-- TODO kestrel 关于菜单，隐藏项目 -->
+           <!-- <item>
             <widget class="QLabel" name="label_3">
              <property name="text">
               <string>QGIS is licensed under the GNU General Public License</string>
@@ -272,10 +274,11 @@
               </widget>
              </item>
             </layout>
-           </item>
+           </item> -->
           </layout>
          </widget>
-         <widget class="QWidget" name="page">
+         <!-- TODO kestrel 关于菜单，隐藏项目 隐藏与注释菜单对应的页面 -->
+         <!-- <widget class="QWidget" name="page">
           <layout class="QVBoxLayout" name="verticalLayout_5">
            <property name="leftMargin">
             <number>0</number>
@@ -293,7 +296,7 @@
             <widget class="QTextBrowser" name="txtWhatsNew"/>
            </item>
           </layout>
-         </widget>
+         </widget> -->
          <widget class="QWidget" name="page_2">
           <layout class="QVBoxLayout" name="verticalLayout_6">
            <property name="leftMargin">
@@ -313,7 +316,8 @@
            </item>
           </layout>
          </widget>
-         <widget class="QWidget" name="page_3">
+         <!-- TODO kestrel 关于菜单，隐藏项目 隐藏与注释菜单对应的页面 -->
+         <!-- <widget class="QWidget" name="page_3">
           <layout class="QGridLayout" name="gridLayout">
            <property name="leftMargin">
             <number>0</number>
@@ -437,7 +441,7 @@
             </widget>
            </item>
           </layout>
-         </widget>
+         </widget> -->
          <widget class="QWidget" name="page_8">
           <layout class="QVBoxLayout" name="verticalLayout_11">
            <property name="leftMargin">

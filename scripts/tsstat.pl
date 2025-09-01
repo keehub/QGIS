@@ -94,6 +94,7 @@ my $translators= {
 	'uk' => 'Alexander Bruy, Daria Svidzinska, Svitlana Shulik, Alesya Shushova',
 	'vi' => 'Phùng Văn Doanh, Bùi Hữu Mạnh, Nguyễn Văn Thanh, Nguyễn Hữu Phúc, Cao Minh Tu',
 	'zh-Hant' => 'Calvin Ngei, Zhang Jun, Richard Xie, Dennis Raylin Chen',
+	'zh_CN' => 'Calvin Ngei, Lisashen, Wang Shuai, Xu Baocai',
 	'zh-Hans' => 'Calvin Ngei, Lisashen, Wang Shuai, Xu Baocai',
 };
 

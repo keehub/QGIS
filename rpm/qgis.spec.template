@@ -272,6 +272,7 @@ rm -f %{buildroot}%{_datadir}/%{name}/doc/INSTALL*
 # QGIS shows the following files in the GUI, including the license text
 %doc %{_datadir}/%{name}/doc/
 %dir %{_datadir}/%{name}/i18n/
+%lang(zh_CN) %{_datadir}/%{name}/i18n/%{name}_zh_CN.qm
 %lang(zh-Hans) %{_datadir}/%{name}/i18n/%{name}_zh-Hans.qm
 %lang(zh-Hant) %{_datadir}/%{name}/i18n/%{name}_zh-Hant.qm
 %{_libdir}/lib%{name}_native.so.*
